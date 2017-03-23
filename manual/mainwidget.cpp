@@ -1,11 +1,13 @@
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
+#include "readdatafromxlsx.h"
 
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainWidget)
 {
     ui->setupUi(this);
+    ReadDataFromXlsx *reader = new ReadDataFromXlsx();
 }
 
 MainWidget::~MainWidget()

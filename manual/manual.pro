@@ -11,6 +11,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = manual
 TEMPLATE = app
 
+include(./common/xlsx/qtxlsx.pri)
+
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -24,9 +26,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        mainwidget.cpp
+        mainwidget.cpp \
+    readdatafromxlsx.cpp \
+    signalitembean.cpp
 
-HEADERS  += mainwidget.h
+HEADERS  += mainwidget.h \
+    readdatafromxlsx.h \
+    signalitembean.h
 
 FORMS    += mainwidget.ui
 
