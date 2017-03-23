@@ -9,7 +9,6 @@
 
 #include "xlsxdocument.h"
 #include "xlsxformat.h"
-#include "xlsxworkbook.h"
 QTXLSX_USE_NAMESPACE
 
 class ReadDataFromXlsx : public QObject
@@ -24,7 +23,7 @@ signals:
 public slots:
 
 private:
-    void readData();
+    void readData(QString cfgPath);
     void writeDataToDb();
 
     QString mConfigFilePath;
