@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QSettings>
 #include <QMap>
+#include <QSqlDatabase>
 
 #include "signalitembean.h"
 
@@ -25,6 +26,7 @@ public slots:
 private:
     void readData(QString cfgPath);
     void writeDataToDb();
+    void writeToDBTable(QSqlDatabase database);
 
     QString mConfigFilePath;
     QString mSettingCfgFilePath; // Setting
