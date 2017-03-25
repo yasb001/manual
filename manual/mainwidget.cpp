@@ -1,6 +1,7 @@
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
 #include "readdatafromxlsx.h"
+#include "readdatafromdb.h"
 
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
@@ -8,6 +9,7 @@ MainWidget::MainWidget(QWidget *parent) :
 {
     ui->setupUi(this);
     ReadDataFromXlsx *reader = new ReadDataFromXlsx();
+    ReadDataFromDB *dbReader = new ReadDataFromDB();
 }
 
 MainWidget::~MainWidget()

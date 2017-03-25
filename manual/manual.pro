@@ -28,11 +28,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwidget.cpp \
     readdatafromxlsx.cpp \
-    signalitembean.cpp
+    signalitembean.cpp \
+    readdatafromdb.cpp
 
 HEADERS  += mainwidget.h \
     readdatafromxlsx.h \
-    signalitembean.h
+    signalitembean.h \
+    readdatafromdb.h
 
 FORMS    += mainwidget.ui
 

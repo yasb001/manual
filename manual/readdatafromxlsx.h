@@ -34,6 +34,8 @@ private:
 
     QSettings *mCfgSetting;
     QMap<QString, SignalItemBean*> mDataMap;
+
+    QMap<QString, QString> mDeviceMap;
 };
 
 #endif // READDATAFROMXLSX_H

@@ -141,10 +141,12 @@ void ReadDataFromXlsx::writeToDBTable(QSqlDatabase database){
             QString signalHandler = bean->signalHandler();
 
 
-            // 缓存入device
-            sql_query_insert_device.bindValue(0, device_uuid);
-            sql_query_insert_device.bindValue(1, deviceName);
-            sql_query_insert_device.exec();
+            // 缓存入deviceMap
+            if(mDeviceMap.find(deviceName) != mDeviceMap.end()){
+                device_uuid = mDeviceMap.find(deviceName).value();
+            }else{
+                mDeviceMap.insert(deviceName, device_uuid);
+            }
 
             // 缓存入signal
             QString signal_uuid = QUuid::createUuid().toString();
@@ -166,6 +168,15 @@ void ReadDataFromXlsx::writeToDBTable(QSqlDatabase database){
             sql_query_insert_signalInfo.exec();
 
             itDataBean++;
+        }
+
+        QMap<QString, QString>::iterator itDevice = mDeviceMap.begin();
+        while (itDevice != mDeviceMap.end()) {
+            sql_query_insert_device.bindValue(0, itDevice.value());
+            sql_query_insert_device.bindValue(1, itDevice.key());
+            sql_query_insert_device.exec();
+
+            itDevice++;
         }
 
         database.commit();
