@@ -13,6 +13,11 @@ ReadDataFromXlsx::ReadDataFromXlsx(QObject *parent) : QObject(parent)
     mSettingCfgFilePath = "/cfg/setting.ini";
     mCfgSetting = new QSettings(exePath + mSettingCfgFilePath, QSettings ::IniFormat);
 
+    QFile *dbFile = new QFile(exePath + "/cfg/zxc_database.db");
+    if(dbFile->exists()){
+        return;
+    }
+
     mConfigFilePath = "/cfg/cfg.xlsx";
     QString xlsxCfgpath = exePath + mConfigFilePath;
     QFile *cfgFileXlsx = new QFile(xlsxCfgpath);
@@ -65,13 +70,10 @@ void ReadDataFromXlsx::writeDataToDb()
                                         id int primary key, \
                                         devicename varchar(30)\
                                        )";
-        QString create_SignalTable = "CREATE TABLE signal (\
-                                        id int NOT NULL, signalname varchar(50), deviceId int, \
-                                        PRIMARY KEY(id), FOREIGN KEY (deviceId) REFERENCES device (id));";
-        QString create_SignalInfoTable = "CREATE TABLE signalInfo (id varchar(100) NOT NULL, signalid varchar(100), \
+        QString create_SignalInfoTable = "CREATE TABLE signalInfo (id varchar(100) NOT NULL, signalname varchar(100), \
                                           signalfrom varchar(500), signaltype varchar(100), signalmeaning varchar(1000),\
                                           signalconnected varchar(1000), signalreason varchar(1000), \
-                                           signalhandler varchar(1000))";
+                                           signalhandler varchar(1000), devicename varchar(100))";
 
         QSqlQuery sql_query;
         sql_query.prepare(create_DeviceTable);
@@ -82,16 +84,6 @@ void ReadDataFromXlsx::writeDataToDb()
         else
         {
             qDebug()<<"device created!";
-        }
-
-        sql_query.prepare(create_SignalTable);
-        if(!sql_query.exec())
-        {
-            qDebug()<<sql_query.lastError();
-        }
-        else
-        {
-            qDebug()<<"signal created!";
         }
 
         sql_query.prepare(create_SignalInfoTable);
@@ -117,12 +109,7 @@ void ReadDataFromXlsx::writeToDBTable(QSqlDatabase database){
     QSqlQuery sql_query_insert_device;
     sql_query_insert_device.prepare(insert_device);
 
-    QString insert_signal = "INSERT INTO signal VALUES(?, ?, ?)";
-    QSqlQuery sql_query_insert_signal;
-    sql_query_insert_signal.prepare(insert_signal);
-
-
-    QString insert_signalInfo = "INSERT INTO signalInfo VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+    QString insert_signalInfo = "INSERT INTO signalInfo VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
     QSqlQuery sql_query_insert_signalInfo;
     sql_query_insert_signalInfo.prepare(insert_signalInfo);
 
@@ -148,23 +135,18 @@ void ReadDataFromXlsx::writeToDBTable(QSqlDatabase database){
                 mDeviceMap.insert(deviceName, device_uuid);
             }
 
-            // 缓存入signal
-            QString signal_uuid = QUuid::createUuid().toString();
-            sql_query_insert_signal.bindValue(0, signal_uuid);
-            sql_query_insert_signal.bindValue(1, signalName);
-            sql_query_insert_signal.bindValue(2, device_uuid);
-            sql_query_insert_signal.exec();
 
             // 缓存入signalInfo
             QString signalInfo_uuid = QUuid::createUuid().toString();
             sql_query_insert_signalInfo.bindValue(0, signalInfo_uuid);
-            sql_query_insert_signalInfo.bindValue(1, signal_uuid);
+            sql_query_insert_signalInfo.bindValue(1, signalName);
             sql_query_insert_signalInfo.bindValue(2, signalFrom);
             sql_query_insert_signalInfo.bindValue(3, signalType);
             sql_query_insert_signalInfo.bindValue(4, signalMeaning);
             sql_query_insert_signalInfo.bindValue(5, signalConnected);
             sql_query_insert_signalInfo.bindValue(6, signalReason);
             sql_query_insert_signalInfo.bindValue(7, signalHandler);
+            sql_query_insert_signalInfo.bindValue(8, deviceName);
             sql_query_insert_signalInfo.exec();
 
             itDataBean++;
