@@ -28,7 +28,23 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_SignalDevice_Search"/>
+          <widget class="QComboBox" name="comboBox_DeviceName">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="editable">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QLabel" name="label_2">
@@ -72,6 +88,16 @@
           <bool>true</bool>
          </property>
          <property name="checked">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_AddSignal">
+         <property name="text">
+          <string>增加信号</string>
+         </property>
+         <property name="checkable">
           <bool>false</bool>
          </property>
         </widget>

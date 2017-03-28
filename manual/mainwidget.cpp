@@ -15,14 +15,26 @@ MainWidget::MainWidget(QWidget *parent) :
     ui->treeWidget_SearchResult->setColumnWidth(0, 50);
 
     mXlsxReader = new ReadDataFromXlsx();
-    mDBReader = new ReadDataFromDB();
+    mDBReader = ReadDataFromDB::getInstance();
+    mAddDialog = new AddSignalDialog();
 
     // 获取设备列表
-    QList<QString> deivceList = mDBReader->getDeviceNameList();
-    QCompleter *completerDevices = new QCompleter(deivceList);
-    ui->lineEdit_SignalDevice_Search->setCompleter(completerDevices);
+    UpdateDeviceNameComboBox();
 
     // 获取信号列表
+    UpdateSignalNameSearchEdit();
+}
+
+void MainWidget::UpdateDeviceNameComboBox(){
+    // 获取设备列表
+    QList<QString> deviceList = mDBReader->getDeviceNameList();
+    QCompleter *completerDevices = new QCompleter(deviceList);
+    ui->comboBox_DeviceName->setCompleter(completerDevices);
+    ui->comboBox_DeviceName->addItems(deviceList);
+}
+
+void MainWidget::UpdateSignalNameSearchEdit()
+{
     QList<QString> signalList = mDBReader->getSignalNameList();
     QCompleter *completerSignal = new QCompleter(signalList);
     ui->lineEdit_SignalName_Search->setCompleter(completerSignal);
@@ -64,7 +76,8 @@ void MainWidget::on_pushButton_SignalSearch_clicked()
 {
     mResultUuid.clear();
     ui->treeWidget_SearchResult->clear();
-    QString deviceName = ui->lineEdit_SignalDevice_Search->text();
+//    QString deviceName = ui->lineEdit_SignalDevice_Search->text();
+    QString deviceName = ui->comboBox_DeviceName->currentText();
     QString signalName = ui->lineEdit_SignalName_Search->text();
     bool bFuzzy = ui->checkBox_Blur->isChecked();
     mDBReader->searchSignalInfoFromDb(deviceName, signalName, bFuzzy);
@@ -126,4 +139,9 @@ void MainWidget::updateSignalInfo(){
     item->setSignalReason(signalReason);
     item->setSignalHandler(signalHandler);
     mDBReader->writeSignalInfoToDb(*item);
+}
+
+void MainWidget::on_pushButton_AddSignal_clicked()
+{
+    mAddDialog->show();
 }

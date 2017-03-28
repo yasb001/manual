@@ -11,6 +11,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = manual
 TEMPLATE = app
 
+#QMAKE_LFLAGS += /MANIFESTUAC:"level='requireAdministrator'uiAccess='false'"
+
 include(./common/xlsx/qtxlsx.pri)
 
 # The following define makes your compiler emit warnings if you use
@@ -29,14 +31,17 @@ SOURCES += main.cpp\
         mainwidget.cpp \
     readdatafromxlsx.cpp \
     signalitembean.cpp \
-    readdatafromdb.cpp
+    readdatafromdb.cpp \
+    addsignaldialog.cpp
 
 HEADERS  += mainwidget.h \
     readdatafromxlsx.h \
     signalitembean.h \
-    readdatafromdb.h
+    readdatafromdb.h \
+    addsignaldialog.h
 
-FORMS    += mainwidget.ui
+FORMS    += mainwidget.ui \
+    addsignaldialog.ui
 
 CONFIG += mobility
 MOBILITY = 

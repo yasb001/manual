@@ -3,7 +3,18 @@
 #include <QApplication>
 #include <QDebug>
 #include <QSqlQuery>
+#include <QUuid>
 
+
+ReadDataFromDB* ReadDataFromDB::instance = NULL;
+
+ReadDataFromDB* ReadDataFromDB::getInstance()
+{
+    if(NULL == instance){
+        instance = new ReadDataFromDB();
+    }
+    return instance
+}
 
 ReadDataFromDB::ReadDataFromDB(QObject *parent) : QObject(parent)
 {
@@ -59,14 +70,16 @@ void ReadDataFromDB::searchSignalInfoFromDb(QString deviceName,
 
 QList<QString> ReadDataFromDB::getDeviceNameList(){
     QList<QString> deviceList;
+    mDeviceSet.clear();
     QString select_Device = "SELECT devicename FROM device";
     QSqlQuery sql_query_selectDevice;
     sql_query_selectDevice.prepare(select_Device);
     sql_query_selectDevice.exec();
     while(sql_query_selectDevice.next()){
+        mDeviceSet.insert(sql_query_selectDevice.value(0).toString());
         deviceList.append(sql_query_selectDevice.value(0).toString());
     }
-    qDebug() << "QVector" << deviceList;
+
     return deviceList;
 }
 
@@ -98,5 +111,45 @@ void ReadDataFromDB::writeSignalInfoToDb(SignalItemBean &item)
 
     if(!sql_query_update_signalInfo.exec()){
         qDebug() << "更新数据失败";
+    }
+}
+
+
+void ReadDataFromDB::insertSignalInfoToDb(SignalItemBean &item){
+    // 判断是否含有设备
+    QList<QString> list = getDeviceNameList();
+    if(!mDeviceSet.find(item.deviceName())){
+        QString uuid = QUuid::createUuid().toString();
+        QString insert_Device = "INSERT INTO device VALUES(?, ?)";
+        QSqlQuery sql_query_insert_device;
+        sql_query_insert_device.prepare(insert_Device);
+        sql_query_insert_device.bindValue(0, uuid);
+        sql_query_insert_device.bindValue(1, item.deviceName());
+        if(!sql_query_insert_device.exec()){
+            qDebug() << "添加设备失败";
+            return;
+        }
+        list.append(item.deviceName());
+        emit deviceChanged(list);
+    }
+
+    // 插入信号
+    QString insert_signalInfo = "INSERT INTO signalInfo VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    QSqlQuery sql_query_insert_signalInfo;
+    sql_query_insert_signalInfo.prepare(insert_signalInfo);
+
+    sql_query_insert_signalInfo.bindValue(0, item.ord());
+    sql_query_insert_signalInfo.bindValue(1, item.signalName());
+    sql_query_insert_signalInfo.bindValue(2, item.signalFrom());
+    sql_query_insert_signalInfo.bindValue(3, item.signalType());
+    sql_query_insert_signalInfo.bindValue(4, item.signalMeanning());
+    sql_query_insert_signalInfo.bindValue(5, item.signalConnected());
+    sql_query_insert_signalInfo.bindValue(6, item.signalReason());
+    sql_query_insert_signalInfo.bindValue(7, item.signalHandler());
+    sql_query_insert_signalInfo.bindValue(8, item.deviceName());
+
+    if(!sql_query_insert_signalInfo.exec()){
+        qDebug() << "添加信号失败";
+        return;
     }
 }

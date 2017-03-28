@@ -5,6 +5,7 @@
 #include <readdatafromdb.h>
 #include <readdatafromxlsx.h>
 #include <QTreeWidgetItem>
+#include "addsignaldialog.h"
 
 namespace Ui {
 class MainWidget;
@@ -25,10 +26,16 @@ private slots:
 
     void on_treeWidget_SearchResult_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 
+    void on_pushButton_AddSignal_clicked();
+
 private:
     void updateSignalInfo();
 
+    void UpdateDeviceNameComboBox();
+    void UpdateSignalNameSearchEdit();
+
     Ui::MainWidget *ui;
+    AddSignalDialog *mAddDialog;
 
     ReadDataFromDB *mDBReader;
     ReadDataFromXlsx *mXlsxReader;
