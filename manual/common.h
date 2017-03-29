@@ -12,6 +12,10 @@ public:
     static QString getDBPath(){
         return QApplication::applicationDirPath() + "/cfg/zxc_database.db";
     }
+
+    static QString getTemplateXlsxPath(){
+        return QApplication::applicationDirPath() + "/cfg/cfg.xlsx";
+    }
 };
 
 

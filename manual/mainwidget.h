@@ -6,6 +6,7 @@
 #include <readdatafromxlsx.h>
 #include <QTreeWidgetItem>
 #include "addsignaldialog.h"
+#include "dbhelper.h"
 
 namespace Ui {
 class MainWidget;
@@ -29,6 +30,13 @@ private slots:
     void on_pushButton_AddSignal_clicked();
 
 private:
+    void initDb();
+    void initUi();
+    DBHelper *mDBHelper;
+    QList<QString> mDevicesList;
+    QList<QString> mSignalList;
+    QMap<QString, SignalItemBean*> mSearchResult;
+
     void updateSignalInfo();
 
     void UpdateDeviceNameComboBox();
@@ -36,9 +44,6 @@ private:
 
     Ui::MainWidget *ui;
     AddSignalDialog *mAddDialog;
-
-    ReadDataFromDB *mDBReader;
-    ReadDataFromXlsx *mXlsxReader;
 
     QList<QString> mResultUuid;
     QString mCurrentItemUuid;

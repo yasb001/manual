@@ -3,13 +3,15 @@
 #include "signalitembean.h"
 #include <QUuid>
 #include <QFileDialog>
+#include "readdatafromxlsx.h"
 
 AddSignalDialog::AddSignalDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddSignalDialog)
 {
     ui->setupUi(this);
-    mDB = ReadDataFromDB::getInstance();
+    setWindowTitle("增加信号");
+    mDBHelper = DBHelper::getInstance();
 }
 
 AddSignalDialog::~AddSignalDialog()
@@ -44,7 +46,7 @@ void AddSignalDialog::on_pushButton_Save_clicked()
     item->setSignalReason(signalReason);
     item->setSignalHandler(signalHandler);
 
-    mDB->insertSignalInfoToDb(*item);
+    mDBHelper->insertSignalInfoToDb(*item);
     hide();
 }
 
@@ -61,5 +63,7 @@ void AddSignalDialog::on_pushButton_importTemplate_clicked()
     }
 
     // 导入数据库
-
+    QMap<QString, SignalItemBean*> signalItemMap;
+    ReadDataFromXlsx::readData(fileName, signalItemMap);
+    mDBHelper->insertSignalInfoListToDb(signalItemMap);
 }

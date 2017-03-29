@@ -2,7 +2,7 @@
 #define ADDSIGNALDIALOG_H
 
 #include <QDialog>
-#include "readdatafromdb.h"
+#include "dbhelper.h"
 
 namespace Ui {
 class AddSignalDialog;
@@ -25,7 +25,7 @@ private slots:
 
 private:
     Ui::AddSignalDialog *ui;
-    ReadDataFromDB* mDB;
+    DBHelper* mDBHelper;
 
 };
 

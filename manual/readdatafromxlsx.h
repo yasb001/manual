@@ -17,25 +17,8 @@ class ReadDataFromXlsx : public QObject
     Q_OBJECT
 public:
     explicit ReadDataFromXlsx(QObject *parent = 0);
-
-signals:
-    void finishRead();
-
-public slots:
-
-private:
-    void readData(QString cfgPath);
-    void writeDataToDb();
-    void writeToDBTable(QSqlDatabase database);
-
-    QString mConfigFilePath;
-    QString mSettingCfgFilePath; // Setting
-    QXlsx::Document *mDocument;
-
-    QSettings *mCfgSetting;
-    QMap<QString, SignalItemBean*> mDataMap;
-
-    QMap<QString, QString> mDeviceMap;
+    static void readData(QString xlsxPath,
+        QMap<QString, SignalItemBean*> &SignalItemMap);
 };
 
 #endif // READDATAFROMXLSX_H

@@ -31,14 +31,12 @@ SOURCES += main.cpp\
         mainwidget.cpp \
     readdatafromxlsx.cpp \
     signalitembean.cpp \
-    readdatafromdb.cpp \
     addsignaldialog.cpp \
     dbhelper.cpp
 
 HEADERS  += mainwidget.h \
     readdatafromxlsx.h \
     signalitembean.h \
-    readdatafromdb.h \
     addsignaldialog.h \
     dbhelper.h \
     common.h

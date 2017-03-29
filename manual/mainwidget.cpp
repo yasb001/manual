@@ -10,35 +10,23 @@ MainWidget::MainWidget(QWidget *parent) :
     ui(new Ui::MainWidget)
 {
     setWindowTitle("信号查询工具");
-    setWindowFlags(Qt::WindowMaximized);
+    setWindowState(Qt::WindowMaximized);
 
-    ui->setupUi(this);
-    ui->treeWidget_SearchResult->header()->setStretchLastSection(true);
-    ui->treeWidget_SearchResult->setColumnWidth(0, 50);
-
-    mXlsxReader = new ReadDataFromXlsx();
-    mDBReader = ReadDataFromDB::getInstance();
     mAddDialog = new AddSignalDialog();
 
-    // 获取设备列表
-    UpdateDeviceNameComboBox();
-
-    // 获取信号列表
-    UpdateSignalNameSearchEdit();
+    ui->setupUi(this);
+    initDb();
+    initUi();
 }
 
 void MainWidget::UpdateDeviceNameComboBox(){
-    // 获取设备列表
-    QList<QString> deviceList = mDBReader->getDeviceNameList();
-    QCompleter *completerDevices = new QCompleter(deviceList);
-    ui->comboBox_DeviceName->setCompleter(completerDevices);
-    ui->comboBox_DeviceName->addItems(deviceList);
+    ui->comboBox_DeviceName->clear();
+    ui->comboBox_DeviceName->addItems(mDevicesList);
 }
 
 void MainWidget::UpdateSignalNameSearchEdit()
 {
-    QList<QString> signalList = mDBReader->getSignalNameList();
-    QCompleter *completerSignal = new QCompleter(signalList);
+    QCompleter *completerSignal = new QCompleter(mSignalList);
     ui->lineEdit_SignalName_Search->setCompleter(completerSignal);
 }
 
@@ -78,16 +66,15 @@ void MainWidget::on_pushButton_SignalSearch_clicked()
 {
     mResultUuid.clear();
     ui->treeWidget_SearchResult->clear();
-//    QString deviceName = ui->lineEdit_SignalDevice_Search->text();
     QString deviceName = ui->comboBox_DeviceName->currentText();
     QString signalName = ui->lineEdit_SignalName_Search->text();
     bool bFuzzy = ui->checkBox_Blur->isChecked();
-    mDBReader->searchSignalInfoFromDb(deviceName, signalName, bFuzzy);
-    if(mDBReader->mSearchResultMap.size() > 0){
+    mDBHelper->searchSignalInfoFromDb(deviceName, signalName, bFuzzy, mSearchResult);
+    if(mSearchResult.size() > 0){
         QMap<QString, SignalItemBean*>::iterator itSignalItem =
-                mDBReader->mSearchResultMap.begin();
+                mSearchResult.begin();
         int iOrd = 1;
-        while (itSignalItem != mDBReader->mSearchResultMap.end()) {
+        while (itSignalItem != mSearchResult.end()) {
             QStringList itemContent;
             itemContent << QString::number(iOrd) << itSignalItem.value()->signalName();
             QTreeWidgetItem *item = new QTreeWidgetItem(itemContent);
@@ -109,8 +96,8 @@ void MainWidget::on_treeWidget_SearchResult_currentItemChanged(QTreeWidgetItem *
         return;
     }
     mCurrentItemUuid = current->data(0, Qt::UserRole).toString();
-    QMap<QString, SignalItemBean*>::iterator itSignalItem = mDBReader->mSearchResultMap.find(mCurrentItemUuid);
-    if(itSignalItem != mDBReader->mSearchResultMap.end()){
+    QMap<QString, SignalItemBean*>::iterator itSignalItem = mSearchResult.find(mCurrentItemUuid);
+    if(itSignalItem != mSearchResult.end()){
         ui->lineEdit_SignalDevice->setText(itSignalItem.value()->deviceName());
         ui->lineEdit_SignalName->setText(itSignalItem.value()->signalName());
         ui->lineEdit_SignalFrom->setText(itSignalItem.value()->signalFrom());
@@ -140,10 +127,32 @@ void MainWidget::updateSignalInfo(){
     item->setSignalConnected(signalConnected);
     item->setSignalReason(signalReason);
     item->setSignalHandler(signalHandler);
-    mDBReader->writeSignalInfoToDb(*item);
+    mDBHelper->updateSignalInfoToDb(*item);
 }
 
 void MainWidget::on_pushButton_AddSignal_clicked()
 {
     mAddDialog->show();
+}
+
+void MainWidget::initDb()
+{
+    mDBHelper = DBHelper::getInstance();
+    mDBHelper->getDeviceNameList(mDevicesList);
+    mDBHelper->getSignalNameList(mSignalList);
+}
+
+void MainWidget::initUi()
+{
+    ui->treeWidget_SearchResult->header()->setStretchLastSection(true);
+    ui->treeWidget_SearchResult->setColumnWidth(0, 50);
+
+    // 获取设备列表
+    UpdateDeviceNameComboBox();
+
+    // 获取信号列表
+    UpdateSignalNameSearchEdit();
+
+    ui->checkBox_Blur->setChecked(true);
+    on_pushButton_SignalSearch_clicked();
 }

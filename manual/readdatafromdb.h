@@ -6,6 +6,7 @@
 #include <signalitembean.h>
 #include <QMap>
 #include <QVector>
+#include <QSet>
 
 class ReadDataFromDB : public QObject
 {

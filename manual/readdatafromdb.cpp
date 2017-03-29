@@ -13,7 +13,7 @@ ReadDataFromDB* ReadDataFromDB::getInstance()
     if(NULL == instance){
         instance = new ReadDataFromDB();
     }
-    return instance
+    return instance;
 }
 
 ReadDataFromDB::ReadDataFromDB(QObject *parent) : QObject(parent)
@@ -118,7 +118,7 @@ void ReadDataFromDB::writeSignalInfoToDb(SignalItemBean &item)
 void ReadDataFromDB::insertSignalInfoToDb(SignalItemBean &item){
     // 判断是否含有设备
     QList<QString> list = getDeviceNameList();
-    if(!mDeviceSet.find(item.deviceName())){
+    if(mDeviceSet.contains(item.deviceName())){
         QString uuid = QUuid::createUuid().toString();
         QString insert_Device = "INSERT INTO device VALUES(?, ?)";
         QSqlQuery sql_query_insert_device;
