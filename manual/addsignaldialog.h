@@ -21,6 +21,8 @@ private slots:
 
     void on_pushButton_Cancel_clicked();
 
+    void on_pushButton_importTemplate_clicked();
+
 private:
     Ui::AddSignalDialog *ui;
     ReadDataFromDB* mDB;

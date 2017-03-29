@@ -22,13 +22,13 @@ ReadDataFromXlsx::ReadDataFromXlsx(QObject *parent) : QObject(parent)
     QString xlsxCfgpath = exePath + mConfigFilePath;
     QFile *cfgFileXlsx = new QFile(xlsxCfgpath);
     if(cfgFileXlsx->exists()){
-        mDocument = new QXlsx::Document(xlsxCfgpath);
         readData(xlsxCfgpath);
     }
 }
 
 void ReadDataFromXlsx::readData(QString cfgPath)
 {
+    mDocument = new QXlsx::Document(xlsxCfgpath);
     if(NULL != mDocument){
         int row = 2;
         QString contentA = mDocument->read(row, 1).toString();

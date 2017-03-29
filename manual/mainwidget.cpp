@@ -10,6 +10,8 @@ MainWidget::MainWidget(QWidget *parent) :
     ui(new Ui::MainWidget)
 {
     setWindowTitle("信号查询工具");
+    setWindowFlags(Qt::WindowMaximized);
+
     ui->setupUi(this);
     ui->treeWidget_SearchResult->header()->setStretchLastSection(true);
     ui->treeWidget_SearchResult->setColumnWidth(0, 50);

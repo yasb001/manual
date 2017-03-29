@@ -2,6 +2,7 @@
 #include "ui_addsignaldialog.h"
 #include "signalitembean.h"
 #include <QUuid>
+#include <QFileDialog>
 
 AddSignalDialog::AddSignalDialog(QWidget *parent) :
     QDialog(parent),
@@ -50,4 +51,15 @@ void AddSignalDialog::on_pushButton_Save_clicked()
 void AddSignalDialog::on_pushButton_Cancel_clicked()
 {
     hide();
+}
+
+void AddSignalDialog::on_pushButton_importTemplate_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, "导入文件", "D:/", "Excel文件(*.xlsx)" );
+    if(fileName.isEmpty()){
+        return;
+    }
+
+    // 导入数据库
+
 }
