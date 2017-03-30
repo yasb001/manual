@@ -4,28 +4,34 @@
 #include "ui_mainwidget.h"
 #include "readdatafromxlsx.h"
 #include "readdatafromdb.h"
+#include <QIcon>
 
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainWidget)
 {
-    setWindowTitle("信号查询工具");
+    ui->setupUi(this);
+    QIcon *icon = new QIcon(":/pic/MainIcon.ico");
+    setWindowIcon(*icon);
+
+    setWindowTitle("220kV及以下变电站信号检索工具");
     setWindowState(Qt::WindowMaximized);
 
     mAddDialog = new AddSignalDialog();
 
-    ui->setupUi(this);
     initDb();
     initUi();
 }
 
 void MainWidget::UpdateDeviceNameComboBox(){
+    mDBHelper->getDeviceNameList(mDevicesList);
     ui->comboBox_DeviceName->clear();
     ui->comboBox_DeviceName->addItems(mDevicesList);
 }
 
 void MainWidget::UpdateSignalNameSearchEdit()
 {
+    mDBHelper->getSignalNameList(mSignalList);
     QCompleter *completerSignal = new QCompleter(mSignalList);
     ui->lineEdit_SignalName_Search->setCompleter(completerSignal);
 }
@@ -65,6 +71,7 @@ void MainWidget::on_pushButton_SignalEdit_clicked()
 void MainWidget::on_pushButton_SignalSearch_clicked()
 {
     mResultUuid.clear();
+    mSearchResult.clear();
     ui->treeWidget_SearchResult->clear();
     QString deviceName = ui->comboBox_DeviceName->currentText();
     QString signalName = ui->lineEdit_SignalName_Search->text();
@@ -93,6 +100,16 @@ void MainWidget::on_pushButton_SignalSearch_clicked()
 void MainWidget::on_treeWidget_SearchResult_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
     if(NULL == current){
+        ui->lineEdit_SignalDevice->clear();
+        ui->lineEdit_SignalName->clear();
+        ui->lineEdit_SignalFrom->clear();
+        ui->lineEdit_SignalType->clear();
+
+        ui->textEdit_SignalMeaning->clear();
+        ui->textEdit_SignalConnected->clear();
+        ui->textEdit_SignalReason->clear();
+        ui->textEdit_SignalHandler->clear();
+
         return;
     }
     mCurrentItemUuid = current->data(0, Qt::UserRole).toString();
@@ -111,7 +128,8 @@ void MainWidget::on_treeWidget_SearchResult_currentItemChanged(QTreeWidgetItem *
 }
 
 void MainWidget::updateSignalInfo(){
-    SignalItemBean *item = new SignalItemBean();
+    SignalItemBean *item;
+
     QString signalFrom = ui->lineEdit_SignalFrom->text();
     QString signalType = ui->lineEdit_SignalType->text();
 
@@ -120,13 +138,19 @@ void MainWidget::updateSignalInfo(){
     QString signalReason = ui->textEdit_SignalReason->document()->toPlainText();
     QString signalHandler = ui->textEdit_SignalHandler->document()->toPlainText();
 
-    item->setOrd(mCurrentItemUuid);
-    item->setSignalFrom(signalFrom);
-    item->setSignalType(signalType);
-    item->setSignalMeanning(signalMeaning);
-    item->setSignalConnected(signalConnected);
-    item->setSignalReason(signalReason);
-    item->setSignalHandler(signalHandler);
+
+    QMap<QString, SignalItemBean*>::iterator itSignal = mSearchResult.find(mCurrentItemUuid);
+    if(itSignal != mSearchResult.end()){
+        item = itSignal.value();
+        item->setOrd(mCurrentItemUuid);
+        item->setSignalFrom(signalFrom);
+        item->setSignalType(signalType);
+        item->setSignalMeanning(signalMeaning);
+        item->setSignalConnected(signalConnected);
+        item->setSignalReason(signalReason);
+        item->setSignalHandler(signalHandler);
+    }
+
     mDBHelper->updateSignalInfoToDb(*item);
 }
 
@@ -138,8 +162,8 @@ void MainWidget::on_pushButton_AddSignal_clicked()
 void MainWidget::initDb()
 {
     mDBHelper = DBHelper::getInstance();
-    mDBHelper->getDeviceNameList(mDevicesList);
-    mDBHelper->getSignalNameList(mSignalList);
+    connect(mDBHelper, SIGNAL(deviceChanged()), this, SLOT(UpdateDeviceNameComboBox()));
+    connect(mDBHelper, SIGNAL(signalChanged()), this, SLOT(UpdateSignalNameSearchEdit()));
 }
 
 void MainWidget::initUi()

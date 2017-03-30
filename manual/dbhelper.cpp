@@ -24,14 +24,25 @@ QSqlDatabase DBHelper::getDataBase()
 DBHelper::DBHelper(QObject *parent) : QObject(parent)
 {
     mDBPath = Common::getDBPath();
-
-    mDataBase = QSqlDatabase::addDatabase("QSQLITE");
-    mDataBase.setDatabaseName(mDBPath);
-    if(!mDataBase.open())
-    {
-        qDebug() << "DBHelper 数据库打开失败";
+    QFile *dbFile = new QFile(mDBPath);
+    if(!dbFile->exists()){
+        mDataBase = QSqlDatabase::addDatabase("QSQLITE");
+        mDataBase.setDatabaseName(mDBPath);
+        if(!mDataBase.open())
+        {
+            qDebug() << "DBHelper 数据库打开失败";
+            return;
+        }
         createTablesOfDB();
         initDBDataFromCfg();
+    }else{
+        mDataBase = QSqlDatabase::addDatabase("QSQLITE");
+        mDataBase.setDatabaseName(mDBPath);
+        if(!mDataBase.open())
+        {
+            qDebug() << "DBHelper 数据库打开失败";
+            return;
+        }
     }
 }
 
@@ -127,9 +138,9 @@ bool DBHelper::searchSignalInfoFromDb(QString deviceName, QString signalName,
     QSqlQuery sql_query_select_signalInfo;
     QString select_signalInfo;
     if(bFuzzy){
-        select_signalInfo = "SELECT * FROM signalInfo WHERE devicename LIKE ? AND signalname LIKE ?";
+        select_signalInfo = "SELECT * FROM signalInfo WHERE devicename=? AND signalname LIKE ?";
         sql_query_select_signalInfo.prepare(select_signalInfo);
-        sql_query_select_signalInfo.bindValue(0, "%" + deviceName + "%");
+        sql_query_select_signalInfo.bindValue(0, deviceName);
         sql_query_select_signalInfo.bindValue(1, "%" + signalName + "%");
     }else{
         select_signalInfo = "SELECT * FROM signalInfo WHERE devicename=? AND signalname=?";
@@ -182,8 +193,8 @@ void DBHelper::getSignalNameList(QList<QString> &signalList)
     sql_query_selectSignal.exec();
     while(sql_query_selectSignal.next()){
         mSignalSet.insert(sql_query_selectSignal.value(0).toString());
-        signalList.append(sql_query_selectSignal.value(0).toString());
     }
+    signalList = mSignalSet.toList();
 }
 
 

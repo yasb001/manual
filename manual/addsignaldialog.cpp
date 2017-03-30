@@ -10,6 +10,8 @@ AddSignalDialog::AddSignalDialog(QWidget *parent) :
     ui(new Ui::AddSignalDialog)
 {
     ui->setupUi(this);
+    QIcon *icon = new QIcon(":/pic/MainIcon.ico");
+    setWindowIcon(*icon);
     setWindowTitle("增加信号");
     mDBHelper = DBHelper::getInstance();
 }
@@ -61,6 +63,7 @@ void AddSignalDialog::on_pushButton_importTemplate_clicked()
     if(fileName.isEmpty()){
         return;
     }
+    hide();
 
     // 导入数据库
     QMap<QString, SignalItemBean*> signalItemMap;

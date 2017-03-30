@@ -29,6 +29,9 @@ private slots:
 
     void on_pushButton_AddSignal_clicked();
 
+    void UpdateDeviceNameComboBox();
+    void UpdateSignalNameSearchEdit();
+
 private:
     void initDb();
     void initUi();
@@ -39,8 +42,7 @@ private:
 
     void updateSignalInfo();
 
-    void UpdateDeviceNameComboBox();
-    void UpdateSignalNameSearchEdit();
+
 
     Ui::MainWidget *ui;
     AddSignalDialog *mAddDialog;

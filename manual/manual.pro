@@ -11,6 +11,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = manual
 TEMPLATE = app
 
+RC_FILE+= adminis.rc
+
 #QMAKE_LFLAGS += /MANIFESTUAC:"level='requireAdministrator'uiAccess='false'"
 
 include(./common/xlsx/qtxlsx.pri)
@@ -46,4 +48,7 @@ FORMS    += mainwidget.ui \
 
 CONFIG += mobility
 MOBILITY = 
+
+RESOURCES += \
+    resource.qrc
 
