@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     signalitembean.cpp \
     addsignaldialog.cpp \
     dbhelper.cpp \
-    trialcontroller.cpp
+    trialcontroller.cpp \
+    registerdialog.cpp
 
 HEADERS  += mainwidget.h \
     readdatafromxlsx.h \
@@ -43,10 +44,12 @@ HEADERS  += mainwidget.h \
     addsignaldialog.h \
     dbhelper.h \
     common.h \
-    trialcontroller.h
+    trialcontroller.h \
+    registerdialog.h
 
 FORMS    += mainwidget.ui \
-    addsignaldialog.ui
+    addsignaldialog.ui \
+    registerdialog.ui
 
 CONFIG += mobility
 MOBILITY = 

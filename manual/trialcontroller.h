@@ -11,6 +11,8 @@ class TrialController : public QObject
 public:
     explicit TrialController(QObject *parent = 0);
     bool isOutTime();
+    int getDaysRemaining();
+    bool isTrialVersion();
 
 signals:
 
@@ -21,9 +23,10 @@ private:
     QString mConfigPath;
     QFile *mConfigFile;
 
-    const int mDays = 15;
+    const int mDays = 5;
     QDateTime mFirstTime;
     QDateTime mLastTime;
+    QDateTime mEndTime;
 };
 
 #endif // TRIALCONTROLLER_H

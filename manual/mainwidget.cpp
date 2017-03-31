@@ -25,6 +25,7 @@ MainWidget::MainWidget(QWidget *parent) :
 
 void MainWidget::UpdateDeviceNameComboBox(){
     mDBHelper->getDeviceNameList(mDevicesList);
+    mDevicesList.append("全部设备");
     ui->comboBox_DeviceName->clear();
     ui->comboBox_DeviceName->addItems(mDevicesList);
 }
@@ -169,7 +170,7 @@ void MainWidget::initDb()
 void MainWidget::initUi()
 {
     ui->treeWidget_SearchResult->header()->setStretchLastSection(true);
-    ui->treeWidget_SearchResult->setColumnWidth(0, 50);
+    ui->treeWidget_SearchResult->setColumnWidth(0, 70);
 
     // 获取设备列表
     UpdateDeviceNameComboBox();
@@ -178,5 +179,6 @@ void MainWidget::initUi()
     UpdateSignalNameSearchEdit();
 
     ui->checkBox_Blur->setChecked(true);
+    ui->comboBox_DeviceName->setCurrentText("全部设备");
     on_pushButton_SignalSearch_clicked();
 }

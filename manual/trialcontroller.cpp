@@ -22,7 +22,7 @@ TrialController::TrialController(QObject *parent) : QObject(parent)
             mConfigFile->close();
         }
     }
-
+    mEndTime = mFirstTime.addDays(mDays);
 }
 
 bool TrialController::isOutTime()
@@ -38,6 +38,16 @@ bool TrialController::isOutTime()
     }else{
        return true;
     }
+}
+
+int TrialController::getDaysRemaining()
+{
+    return QDateTime::currentDateTime().daysTo(mEndTime);
+}
+
+bool TrialController::isTrialVersion()
+{
+    return true;
 }
 
 void TrialController::updateRegesterInfo()
