@@ -2,24 +2,28 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "220kV及以下变电站信号检索工具"
-#define MyAppVersion "1.0.0.1"
-#define MyAppPublisher "XunFengZ"
+#define MyAppVersion "2.0.0.1"
+#define MyAppPublisher "My Company, Inc."
+#define MyAppURL "http://www.example.com/"
 #define MyAppExeName "manual.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{596E6B56-456D-49D7-813B-6416FCF7D8FC}
+AppId={{DD62C2C1-1806-4785-BEAD-ED2A771053CB}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisher={#MyAppPublisher}
+AppPublisherURL={#MyAppURL}
+AppSupportURL={#MyAppURL}
+AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\SubStationSignalTools
 DisableProgramGroupPage=yes
-OutputDir=C:\Users\zhang-xch\Desktop
+OutputDir=F:\GitHub\manual\package
 OutputBaseFilename=setup
-SetupIconFile=F:\package\MainIcon.ico
+SetupIconFile=F:\GitHub\manual\manual\pic\MainIcon.ico
 Compression=lzma
 SolidCompression=yes
 
@@ -31,25 +35,29 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "F:\package\manual.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\package\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "F:\package\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "F:\package\sqldrivers\*"; DestDir: "{app}\sqldrivers"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "F:\package\config.db"; DestDir: "C:\Windows\SystemAppData"; Flags: ignoreversion
-Source: "F:\package\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\package\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\package\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\package\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\package\manual.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\package\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\package\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\package\Qt5Sql.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\package\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\GitHub\manual\package\manual.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\GitHub\manual\package\bearer\*"; DestDir: "{app}\bearer"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "F:\GitHub\manual\package\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "F:\GitHub\manual\package\imageformats\*"; DestDir: "{app}\imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "F:\GitHub\manual\package\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "F:\GitHub\manual\package\sqldrivers\*"; DestDir: "{app}\sqldrivers"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "F:\GitHub\manual\package\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\GitHub\manual\package\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\GitHub\manual\package\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\GitHub\manual\package\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\GitHub\manual\package\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\GitHub\manual\package\manual.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\GitHub\manual\package\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\GitHub\manual\package\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\GitHub\manual\package\Qt5Network.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\GitHub\manual\package\Qt5Sql.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\GitHub\manual\package\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\GitHub\manual\package\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\GitHub\manual\package\config.db"; DestDir: "C:\Windows\SystemAppData"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: quicklaunchicon
-
 
