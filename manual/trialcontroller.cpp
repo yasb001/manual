@@ -10,9 +10,9 @@ TrialController::TrialController(QObject *parent) : QObject(parent)
     mConfigPath = Common::getPrivateDirPath();
 
     mUserKey = getUserKey();
-//    qDebug() << "mUserKey" <<mUserKey;
+    qDebug() << "mUserKey" <<mUserKey;
     mUserValue = getUserValue();
-//    qDebug() << "mUserValue" <<mUserValue;
+    qDebug() << "mUserValue" <<mUserValue;
     mIsTrial = true;
 
     mConfigFile = new QFile(mConfigPath);
