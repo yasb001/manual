@@ -182,3 +182,9 @@ void MainWidget::initUi()
     ui->comboBox_DeviceName->setCurrentText("全部设备");
     on_pushButton_SignalSearch_clicked();
 }
+
+void MainWidget::on_comboBox_DeviceName_currentIndexChanged(const QString &arg1)
+{
+    ui->lineEdit_SignalName_Search->setText("");
+    on_pushButton_SignalSearch_clicked();
+}

@@ -21,9 +21,9 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\SubStationSignalTools
 DisableProgramGroupPage=yes
-OutputDir=F:\GitHub\manual\package
+OutputDir=E:\GitHub\manual\package
 OutputBaseFilename=setup
-SetupIconFile=F:\GitHub\manual\manual\pic\MainIcon.ico
+SetupIconFile=E:\GitHub\manual\manual\pic\MainIcon.ico
 Compression=lzma
 SolidCompression=yes
 
@@ -35,25 +35,28 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "F:\GitHub\manual\package\manual.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\GitHub\manual\package\bearer\*"; DestDir: "{app}\bearer"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "F:\GitHub\manual\package\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "F:\GitHub\manual\package\imageformats\*"; DestDir: "{app}\imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "F:\GitHub\manual\package\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "F:\GitHub\manual\package\sqldrivers\*"; DestDir: "{app}\sqldrivers"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "F:\GitHub\manual\package\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\GitHub\manual\package\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\GitHub\manual\package\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\GitHub\manual\package\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\GitHub\manual\package\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\GitHub\manual\package\manual.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\GitHub\manual\package\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\GitHub\manual\package\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\GitHub\manual\package\Qt5Network.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\GitHub\manual\package\Qt5Sql.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\GitHub\manual\package\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\GitHub\manual\package\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\GitHub\manual\package\config.db"; DestDir: "C:\Windows\SystemAppData"; Flags: ignoreversion
+Source: "E:\GitHub\manual\package\manual.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\GitHub\manual\package\bearer\*"; DestDir: "{app}\bearer"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "E:\GitHub\manual\package\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "E:\GitHub\manual\package\imageformats\*"; DestDir: "{app}\imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "E:\GitHub\manual\package\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "E:\GitHub\manual\package\sqldrivers\*"; DestDir: "{app}\sqldrivers"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "E:\GitHub\manual\package\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\GitHub\manual\package\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\GitHub\manual\package\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\GitHub\manual\package\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\GitHub\manual\package\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\GitHub\manual\package\manual.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\GitHub\manual\package\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\GitHub\manual\package\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\GitHub\manual\package\Qt5Network.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\GitHub\manual\package\Qt5Sql.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\GitHub\manual\package\kernel32.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\GitHub\manual\package\msvcrt.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\GitHub\manual\package\shell32.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\GitHub\manual\package\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\GitHub\manual\package\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\GitHub\manual\package\config.db"; DestDir: "C:\Windows\SystemAppData"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

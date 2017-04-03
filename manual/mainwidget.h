@@ -32,6 +32,8 @@ private slots:
     void UpdateDeviceNameComboBox();
     void UpdateSignalNameSearchEdit();
 
+    void on_comboBox_DeviceName_currentIndexChanged(const QString &arg1);
+
 private:
     void initDb();
     void initUi();

@@ -137,22 +137,39 @@ bool DBHelper::searchSignalInfoFromDb(QString deviceName, QString signalName,
     bool bFind = false;
     QSqlQuery sql_query_select_signalInfo;
     QString select_signalInfo;
-    if(deviceName == "全部设备"){
-        select_signalInfo = "SELECT * FROM signalInfo";
-        sql_query_select_signalInfo.prepare(select_signalInfo);
-    }else{
-        if(bFuzzy){
-            select_signalInfo = "SELECT * FROM signalInfo WHERE devicename=? AND signalname LIKE ?";
+    if(signalName.isEmpty()){
+        if(deviceName == "全部设备"){
+            select_signalInfo = "SELECT * FROM signalInfo";
             sql_query_select_signalInfo.prepare(select_signalInfo);
-            sql_query_select_signalInfo.bindValue(0, deviceName);
-            sql_query_select_signalInfo.bindValue(1, "%" + signalName + "%");
         }else{
-            select_signalInfo = "SELECT * FROM signalInfo WHERE devicename=? AND signalname=?";
+            select_signalInfo = "SELECT * FROM signalInfo WHERE devicename=?";
             sql_query_select_signalInfo.prepare(select_signalInfo);
             sql_query_select_signalInfo.bindValue(0, deviceName);
-            sql_query_select_signalInfo.bindValue(1, signalName);
         }
+
+    }else{
+        if(deviceName == "全部设备"){
+            select_signalInfo = "SELECT * FROM signalInfo WHERE signalname LIKE ?";
+            sql_query_select_signalInfo.prepare(select_signalInfo);
+            sql_query_select_signalInfo.bindValue(0, "%" + signalName + "%");
+        }else{
+            if(bFuzzy){
+                select_signalInfo = "SELECT * FROM signalInfo WHERE devicename=? AND signalname LIKE ?";
+                sql_query_select_signalInfo.prepare(select_signalInfo);
+                sql_query_select_signalInfo.bindValue(0, deviceName);
+                sql_query_select_signalInfo.bindValue(1, "%" + signalName + "%");
+            }else{
+                select_signalInfo = "SELECT * FROM signalInfo WHERE devicename=? AND signalname=?";
+                sql_query_select_signalInfo.prepare(select_signalInfo);
+                sql_query_select_signalInfo.bindValue(0, deviceName);
+                sql_query_select_signalInfo.bindValue(1, signalName);
+            }
+
+        }
+
+
     }
+
 
     if(sql_query_select_signalInfo.exec()){
         while (sql_query_select_signalInfo.next()) {
