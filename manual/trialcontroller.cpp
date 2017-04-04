@@ -47,17 +47,22 @@ TrialController *TrialController::getInstance()
 
 bool TrialController::isOutTime()
 {
-    QDateTime currentTime = QDateTime::currentDateTime();
-    if(currentTime > mLastTime){
-        if(currentTime > mFirstTime.addDays(mDays)){
-            return true;
-        }else{
-            updateRegesterInfo();
-            return false;
-        }
+    if(!mIsTrial){
+        return false;
     }else{
-       return true;
+        QDateTime currentTime = QDateTime::currentDateTime();
+        if(currentTime > mLastTime){
+            if(currentTime > mFirstTime.addDays(mDays)){
+                return true;
+            }else{
+                updateRegesterInfo();
+                return false;
+            }
+        }else{
+           return true;
+        }
     }
+
 }
 
 int TrialController::getDaysRemaining()

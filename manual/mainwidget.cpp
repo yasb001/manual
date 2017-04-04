@@ -1,5 +1,7 @@
 #include <QCompleter>
-
+#include <QMessageBox>
+#include "registerdialog.h"
+#include "trialcontroller.h"
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
 #include "readdatafromxlsx.h"
@@ -71,6 +73,15 @@ void MainWidget::on_pushButton_SignalEdit_clicked()
 
 void MainWidget::on_pushButton_SignalSearch_clicked()
 {
+    TrialController *trial = TrialController::getInstance();
+    if(trial->isOutTime()){
+        RegisterDialog dialog;
+        dialog.setUserKey(trial->getUserKey());
+            dialog.exec();
+            if(!dialog.bRegisteOk()){
+                return;
+            }
+    }
     mResultUuid.clear();
     mSearchResult.clear();
     ui->treeWidget_SearchResult->clear();
