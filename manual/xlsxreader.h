@@ -6,7 +6,7 @@
 #include "signalitembean.h"
 
 
-#include "libxl/libxl.h"
+#include "common/libxl/libxl.h"
 using namespace libxl;
 
 class XlsxReader : public QObject
@@ -15,7 +15,7 @@ class XlsxReader : public QObject
 public:
     explicit XlsxReader(QObject *parent = 0);
     static void readData(QString xlsxPath, QMap<QString, SignalItemBean *> &SignalItemMap);
-    
+
 };
 
 #endif // XLSXREADER_H

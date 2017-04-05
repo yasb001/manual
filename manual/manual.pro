@@ -58,4 +58,8 @@ RESOURCES += \
     resource.qrc
 
 
-win32: LIBS += -llibxl
+
+win32: LIBS += -L$$PWD/../lib/ -llibxl
+
+INCLUDEPATH += $$PWD/../
+DEPENDPATH += $$PWD/../
