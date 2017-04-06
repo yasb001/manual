@@ -1,10 +1,11 @@
-#include <QCompleter>
+﻿#include <QCompleter>
 #include <QMessageBox>
 #include "registerdialog.h"
 #include "trialcontroller.h"
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
-#include "readdatafromxlsx.h"
+//#include "readdatafromxlsx.h"
+#include "xlsxreader.h"
 #include "readdatafromdb.h"
 #include <QIcon>
 
@@ -16,7 +17,7 @@ MainWidget::MainWidget(QWidget *parent) :
     QIcon *icon = new QIcon(":/pic/MainIcon.ico");
     setWindowIcon(*icon);
 
-    setWindowTitle("220kV及以下变电站信号检索工具");
+    setWindowTitle(QObject::tr("220kV及以下变电站信号检索工具"));
     setWindowState(Qt::WindowMaximized);
 
     mAddDialog = new AddSignalDialog();
@@ -27,7 +28,7 @@ MainWidget::MainWidget(QWidget *parent) :
 
 void MainWidget::UpdateDeviceNameComboBox(){
     mDBHelper->getDeviceNameList(mDevicesList);
-    mDevicesList.append("全部设备");
+    mDevicesList.append(QString("全部设备"));
     ui->comboBox_DeviceName->clear();
     ui->comboBox_DeviceName->addItems(mDevicesList);
 }
@@ -47,7 +48,7 @@ MainWidget::~MainWidget()
 void MainWidget::on_pushButton_SignalEdit_clicked()
 {
     if(ui->pushButton_SignalEdit->isChecked()){
-        ui->pushButton_SignalEdit->setText("保存修改");
+        ui->pushButton_SignalEdit->setText(QObject::tr("保存修改"));
 
         ui->lineEdit_SignalFrom->setEnabled(true);
         ui->lineEdit_SignalType->setEnabled(true);
@@ -190,7 +191,13 @@ void MainWidget::initUi()
     UpdateSignalNameSearchEdit();
 
     ui->checkBox_Blur->setChecked(true);
-    ui->comboBox_DeviceName->setCurrentText("全部设备");
+    ui->comboBox_DeviceName->setCurrentIndex(0);
+    int index = ui->comboBox_DeviceName->findText("全部设备");
+    if(index == -1){
+        index = 0;
+    }
+    ui->comboBox_DeviceName->setCurrentIndex(index);
+//    ui->comboBox_DeviceName->setCurrentText("全部设备");
     on_pushButton_SignalSearch_clicked();
 }
 

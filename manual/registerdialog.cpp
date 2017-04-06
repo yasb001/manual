@@ -1,4 +1,4 @@
-#include "registerdialog.h"
+﻿#include "registerdialog.h"
 #include "ui_registerdialog.h"
 #include <QMessageBox>
 
@@ -26,10 +26,10 @@ void RegisterDialog::on_pushButton_register_clicked()
     QString userValue = ui->lineEdit_registerCode->text();
     if(mTrialController->registeOfficial(userValue)){
         mBeRegiste = true;
-        QMessageBox::information(NULL, "注册", "注册成功！");
+        QMessageBox::information(NULL, QObject::tr("注册"), QObject::tr("注册成功！"));
     }else{
         mBeRegiste = false;
-        QMessageBox::information(NULL, "注册", "注册失败，请与客服进行确认！");
+        QMessageBox::information(NULL, QObject::tr("注册"), QObject::tr("注册失败，请与客服进行确认！"));
     }
     hide();
 }

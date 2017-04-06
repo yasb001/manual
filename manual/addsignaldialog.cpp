@@ -1,9 +1,11 @@
-#include "addsignaldialog.h"
+﻿#include "addsignaldialog.h"
 #include "ui_addsignaldialog.h"
 #include "signalitembean.h"
 #include <QUuid>
 #include <QFileDialog>
-#include "readdatafromxlsx.h"
+#include "QObject"
+//#include "readdatafromxlsx.h"
+#include "xlsxreader.h"
 
 AddSignalDialog::AddSignalDialog(QWidget *parent) :
     QDialog(parent),
@@ -12,7 +14,7 @@ AddSignalDialog::AddSignalDialog(QWidget *parent) :
     ui->setupUi(this);
     QIcon *icon = new QIcon(":/pic/MainIcon.ico");
     setWindowIcon(*icon);
-    setWindowTitle("增加信号");
+    setWindowTitle(QObject::tr("增加信号"));
     mDBHelper = DBHelper::getInstance();
 }
 
@@ -59,7 +61,7 @@ void AddSignalDialog::on_pushButton_Cancel_clicked()
 
 void AddSignalDialog::on_pushButton_importTemplate_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, "导入文件", "D:/", "Excel文件(*.xlsx)" );
+    QString fileName = QFileDialog::getOpenFileName(this, QObject::tr("导入文件"), "D:/", "Excel文件(*.xlsx)" );
     if(fileName.isEmpty()){
         return;
     }
@@ -67,6 +69,6 @@ void AddSignalDialog::on_pushButton_importTemplate_clicked()
 
     // 导入数据库
     QMap<QString, SignalItemBean*> signalItemMap;
-    ReadDataFromXlsx::readData(fileName, signalItemMap);
+    XlsxReader::readData(fileName, signalItemMap);
     mDBHelper->insertSignalInfoListToDb(signalItemMap);
 }

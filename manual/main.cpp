@@ -1,17 +1,18 @@
-#include "mainwidget.h"
+﻿#include "mainwidget.h"
 #include <QApplication>
 #include <QDebug>
 #include "trialcontroller.h"
 #include <QMessageBox>
-#include "xlsxdocument.h"
-#include "xlsxformat.h"
 #include "registerdialog.h"
-QTXLSX_USE_NAMESPACE
-
+#include <QString>
+#include <QTextCodec>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    QTextCodec::setCodecForTr(QTextCodec::codecForName("GB18030"));
+    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("GB18030"));
+    QTextCodec::setCodecForLocale(QTextCodec::codecForName("GB18030"));
     RegisterDialog dialog;
     TrialController *trial = TrialController::getInstance();
     if(trial->isTrialVersion()){
@@ -21,8 +22,10 @@ int main(int argc, char *argv[])
             if(!dialog.bRegisteOk()){
                 return -1;
             }
-        }else{
-            QMessageBox::information(NULL, "试用期提示", QString("您的试用期剩余%1天，若注册正式版，请联系QQ：595087268").arg(trial->getDaysRemaining()));
+        }else
+        {
+            QString text = QString("您的试用期剩余%1天，若注册正式版，请联系QQ：595087268").arg(trial->getDaysRemaining());
+            QMessageBox::information(NULL, QObject::tr("试用期提示"), text);
         }
     }
 

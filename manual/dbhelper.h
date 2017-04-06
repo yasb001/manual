@@ -5,6 +5,7 @@
 #include <QSqlDatabase>
 #include <QMap>
 #include <QList>
+#include <QSet>
 
 #include "common.h"
 #include "signalitembean.h"

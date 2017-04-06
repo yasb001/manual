@@ -1,13 +1,13 @@
-#include "dialog.h"
+﻿#include "dialog.h"
 #include "ui_dialog.h"
 #include <QIcon>
 
 Dialog::Dialog(QWidget *parent) :
-    QDialog(parent),
+QDialog(parent),
     ui(new Ui::Dialog)
 {
     ui->setupUi(this);
-    setWindowTitle("注册机");
+    setWindowTitle(QString("注册机"));
     QIcon *icon = new QIcon(":/pic/MainIcon.ico");
     setWindowIcon(*icon);
 }

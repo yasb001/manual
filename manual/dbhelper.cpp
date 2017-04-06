@@ -1,5 +1,6 @@
 #include "dbhelper.h"
-#include "readdatafromxlsx.h"
+//#include "readdatafromxlsx.h"
+#include "xlsxreader.h"
 #include <QDebug>
 #include <QSqlQuery>
 #include <QUuid>
@@ -138,7 +139,7 @@ bool DBHelper::searchSignalInfoFromDb(QString deviceName, QString signalName,
     QSqlQuery sql_query_select_signalInfo;
     QString select_signalInfo;
     if(signalName.isEmpty()){
-        if(deviceName == "全部设备"){
+        if(deviceName.toUtf8() == "全部设备"){
             select_signalInfo = "SELECT * FROM signalInfo";
             sql_query_select_signalInfo.prepare(select_signalInfo);
         }else{
@@ -148,7 +149,7 @@ bool DBHelper::searchSignalInfoFromDb(QString deviceName, QString signalName,
         }
 
     }else{
-        if(deviceName == "全部设备"){
+        if(deviceName.toUtf8() == "全部设备"){
             select_signalInfo = "SELECT * FROM signalInfo WHERE signalname LIKE ?";
             sql_query_select_signalInfo.prepare(select_signalInfo);
             sql_query_select_signalInfo.bindValue(0, "%" + signalName + "%");
@@ -262,7 +263,7 @@ void DBHelper::initDBDataFromCfg()
 {
     QString cfgPath = Common::getTemplateXlsxPath();
     QMap<QString, SignalItemBean*> signalMap;
-    ReadDataFromXlsx::readData(cfgPath, signalMap);
+    XlsxReader::readData(cfgPath, signalMap);
     insertSignalInfoListToDb(signalMap);
 }
 

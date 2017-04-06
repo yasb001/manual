@@ -15,7 +15,7 @@ RC_FILE+= adminis.rc
 
 #QMAKE_LFLAGS += /MANIFESTUAC:"level='requireAdministrator'uiAccess='false'"
 
-include(./common/xlsx/qtxlsx.pri)
+#include(./common/xlsx/qtxlsx.pri)
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
@@ -31,21 +31,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         mainwidget.cpp \
-    readdatafromxlsx.cpp \
     signalitembean.cpp \
     addsignaldialog.cpp \
     dbhelper.cpp \
     trialcontroller.cpp \
-    registerdialog.cpp
+    registerdialog.cpp \
+    xlsxreader.cpp
 
 HEADERS  += mainwidget.h \
-    readdatafromxlsx.h \
     signalitembean.h \
     addsignaldialog.h \
     dbhelper.h \
     common.h \
     trialcontroller.h \
-    registerdialog.h
+    registerdialog.h \
+    xlsxreader.h
 
 FORMS    += mainwidget.ui \
     addsignaldialog.ui \
@@ -57,3 +57,6 @@ MOBILITY =
 RESOURCES += \
     resource.qrc
 
+win32: LIBS += -L$$PWD/../lib/ -llibxl
+INCLUDEPATH += $$PWD/../
+DEPENDPATH += $$PWD/../

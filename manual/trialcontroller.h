@@ -21,7 +21,7 @@ public:
 
 signals:
 
-public slots:
+    public slots:
 
 private:
     TrialController(QObject *parent = 0);
@@ -34,7 +34,7 @@ private:
     QString mConfigPath;
     QFile *mConfigFile;
 
-    const int mDays = 5;
+    static const int mDays = 5;
     QDateTime mFirstTime;
     QDateTime mLastTime;
     QDateTime mEndTime;

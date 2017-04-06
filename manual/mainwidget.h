@@ -3,7 +3,8 @@
 
 #include <QWidget>
 #include <readdatafromdb.h>
-#include <readdatafromxlsx.h>
+//#include <readdatafromxlsx.h>
+#include "xlsxreader.h"
 #include <QTreeWidgetItem>
 #include "addsignaldialog.h"
 #include "dbhelper.h"
